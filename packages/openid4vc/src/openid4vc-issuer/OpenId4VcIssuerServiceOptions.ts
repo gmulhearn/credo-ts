@@ -6,6 +6,7 @@ import type {
   MdocSignOptions,
   SdJwtVcSignOptions,
   W3cCredential,
+  W3cV2Credential,
   W3cV2SignCredentialOptions,
 } from '@credo-ts/core'
 import type { AccessTokenProfileJwtPayload, TokenIntrospectionResponse } from '@openid4vc/oauth2'
@@ -418,7 +419,7 @@ export interface OpenId4VciSignW3cCredentials {
   format: ClaimFormat.JwtVc | `${ClaimFormat.JwtVc}` | ClaimFormat.LdpVc | `${ClaimFormat.LdpVc}`
   credentials: Array<{
     verificationMethod: string
-    credential: W3cCredential
+    credential: W3cCredential | W3cV2Credential
   }>
 }
 

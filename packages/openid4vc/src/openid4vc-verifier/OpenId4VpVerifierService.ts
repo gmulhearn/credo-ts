@@ -1125,7 +1125,7 @@ export class OpenId4VpVerifierService {
       return W3cV2SdJwtVerifiablePresentation.fromCompact(presentation)
     }
 
-    return JsonTransformer.fromJSON(presentation, W3cJsonLdVerifiablePresentation)
+    return JsonTransformer.fromJSON(presentation, W3cJsonLdVerifiablePresentation, { validate: false })
   }
 
   private async verifyPresentation(
@@ -1316,7 +1316,9 @@ export class OpenId4VpVerifierService {
         isValid = verificationResult.isValid
         cause = verificationResult.error
       } else {
-        verifiablePresentation = JsonTransformer.fromJSON(presentation, W3cJsonLdVerifiablePresentation)
+        verifiablePresentation = JsonTransformer.fromJSON(presentation, W3cJsonLdVerifiablePresentation, {
+          validate: false,
+        })
         const verificationResult = await this.w3cCredentialService.verifyPresentation(agentContext, {
           presentation: verifiablePresentation,
           challenge: options.nonce,

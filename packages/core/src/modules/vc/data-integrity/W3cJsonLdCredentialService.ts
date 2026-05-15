@@ -9,6 +9,7 @@ import { getPublicJwkFromVerificationMethod } from '../../dids/domain/key-type'
 import { PublicJwk } from '../../kms'
 import type { W3cVerifyCredentialResult, W3cVerifyPresentationResult } from '../models'
 import type { W3cJsonCredential } from '../models/credential/W3cJsonCredential'
+import { CREDENTIALS_CONTEXT_V2_URL } from '../constants'
 import { w3cDate } from '../util'
 import type {
   W3cJsonLdSignCredentialOptions,
@@ -85,7 +86,9 @@ export class W3cJsonLdCredentialService {
         documentLoader: this.w3cCredentialsModuleConfig.documentLoader(agentContext),
       })
 
-      return JsonTransformer.fromJSON(result, W3cJsonLdVerifiableCredential)
+      return JsonTransformer.fromJSON(result, W3cJsonLdVerifiableCredential, {
+        validate: !(Array.isArray(result['@context']) && result['@context'].includes(CREDENTIALS_CONTEXT_V2_URL)),
+      })
     } catch (error) {
       throw new CredoError(`Error issuing W3C JSON-LD VC. ${error.message}`, {
         cause: error,
@@ -283,6 +286,10 @@ export class W3cJsonLdCredentialService {
       }
 
       const result = await vc.verify(verifyOptions)
+
+      if (!result.verified) {
+        console.error('[DEBUG W3C LD VERIFY] Verification failed:', JSON.stringify(result, null, 2))
+      }
 
       const { verified: isValid, ...remainingResult } = result
 

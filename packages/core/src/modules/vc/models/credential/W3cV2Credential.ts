@@ -236,4 +236,8 @@ export class W3cV2Credential {
   public toJSON(): W3cV2JsonCredential {
     return JsonTransformer.toJSON(this) as W3cV2JsonCredential
   }
+
+  public static fromJson(json: Record<string, unknown>) {
+    return JsonTransformer.fromJSON(json, W3cV2Credential)
+  }
 }

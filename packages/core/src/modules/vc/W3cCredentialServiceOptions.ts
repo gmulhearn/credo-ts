@@ -6,6 +6,7 @@ import type { W3cJwtVerifiableCredential } from './jwt-vc/W3cJwtVerifiableCreden
 import type { W3cJwtVerifiablePresentation } from './jwt-vc/W3cJwtVerifiablePresentation'
 import type { ClaimFormat, W3cVerifiableCredential } from './models'
 import type { W3cCredential } from './models/credential/W3cCredential'
+import type { W3cV2Credential } from './models/credential/W3cV2Credential'
 import type { W3cPresentation } from './models/presentation/W3cPresentation'
 import { W3cCredentialRecord } from './repository'
 
@@ -40,7 +41,7 @@ interface W3cSignCredentialOptionsBase {
   /**
    * The credential to be signed.
    */
-  credential: W3cCredential
+  credential: W3cCredential | W3cV2Credential
 
   /**
    * URI of the verificationMethod to be used for signing the credential.
